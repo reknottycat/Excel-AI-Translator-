@@ -1,14 +1,16 @@
 
-import React, { useState, useCallback } from 'react';
-import { AppStep, TranslationEntry, TranslatedFile, MatchPolicy, Language, TranslationModel } from './types';
+import React, { useState, useCallback, useEffect } from 'react';
+import { AppStep, TranslationEntry, MatchPolicy, Language, TranslationModel } from './types';
 import FileUploader from './components/FileUploader';
 import DictionaryManager from './components/DictionaryManager';
 import FileTranslator from './components/FileTranslator';
 import { extractTextsFromFiles } from './services/excelService';
 import { LogoIcon, UploadIcon, DictionaryIcon, TranslateIcon } from './constants';
 import { LANGUAGES } from './constants/languages';
+import { LanguageProvider, useTranslation } from './hooks/useTranslation';
+import LanguageSwitcher from './components/LanguageSwitcher';
 
-const App: React.FC = () => {
+const AppContent: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<AppStep>(AppStep.UPLOAD);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [extractedTexts, setExtractedTexts] = useState<string[]>([]);
@@ -21,6 +23,13 @@ const App: React.FC = () => {
   const [preserveRichTextFormatting, setPreserveRichTextFormatting] = useState<boolean>(true);
   const [extractFromShapes, setExtractFromShapes] = useState<boolean>(true);
   const [processVisibleSheetsOnly, setProcessVisibleSheetsOnly] = useState<boolean>(true);
+  
+  const { t, language, dir } = useTranslation();
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+    document.documentElement.dir = dir;
+  }, [language, dir]);
 
   const handleFilesUploaded = useCallback(async (files: File[]) => {
     setIsLoading(true);
@@ -153,7 +162,7 @@ const App: React.FC = () => {
             {icon}
         </div>
         <div>
-            <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Step {step}</p>
+            <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{t('step')} {step}</p>
             <p className={`font-semibold ${isActive ? 'text-slate-800 dark:text-white' : 'text-slate-600 dark:text-slate-300'}`}>{label}</p>
         </div>
     </div>
@@ -166,32 +175,35 @@ const App: React.FC = () => {
             <div className="flex items-center space-x-3">
                 <LogoIcon className="h-10 w-10 text-indigo-600" />
                 <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
-                    Excel AI Translator
+                    {t('headerTitle')}
                 </h1>
             </div>
-             {currentStep !== AppStep.UPLOAD && (
-                <button
-                    onClick={handleReset}
-                    className="px-4 py-2 text-sm font-semibold text-indigo-600 dark:text-indigo-300 bg-indigo-100 dark:bg-indigo-900 rounded-md hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors"
-                >
-                    Start Over
-                </button>
-            )}
+            <div className="flex items-center space-x-4">
+              <LanguageSwitcher />
+              {currentStep !== AppStep.UPLOAD && (
+                  <button
+                      onClick={handleReset}
+                      className="px-4 py-2 text-sm font-semibold text-indigo-600 dark:text-indigo-300 bg-indigo-100 dark:bg-indigo-900 rounded-md hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors"
+                  >
+                      {t('startOver')}
+                  </button>
+              )}
+            </div>
         </header>
 
         <div className="mb-10 p-4 bg-white dark:bg-slate-800 rounded-xl shadow-md">
             <div className="flex justify-between items-center">
-                <Step step={AppStep.UPLOAD} icon={<UploadIcon />} label="Upload Files" isActive={currentStep === AppStep.UPLOAD} />
+                <Step step={AppStep.UPLOAD} icon={<UploadIcon />} label={t('step1Label')} isActive={currentStep === AppStep.UPLOAD} />
                 <div className="flex-1 h-0.5 bg-slate-200 dark:bg-slate-700 mx-4"></div>
-                <Step step={AppStep.DICTIONARY} icon={<DictionaryIcon />} label="Manage Dictionary" isActive={currentStep === AppStep.DICTIONARY} />
+                <Step step={AppStep.DICTIONARY} icon={<DictionaryIcon />} label={t('step2Label')} isActive={currentStep === AppStep.DICTIONARY} />
                  <div className="flex-1 h-0.5 bg-slate-200 dark:bg-slate-700 mx-4"></div>
-                <Step step={AppStep.TRANSLATE} icon={<TranslateIcon />} label="Translate & Download" isActive={currentStep === AppStep.TRANSLATE} />
+                <Step step={AppStep.TRANSLATE} icon={<TranslateIcon />} label={t('step3Label')} isActive={currentStep === AppStep.TRANSLATE} />
             </div>
         </div>
 
         {error && (
             <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-md" role="alert">
-                <p className="font-bold">Error</p>
+                <p className="font-bold">{t('errorTitle')}</p>
                 <p>{error}</p>
             </div>
         )}
@@ -201,14 +213,22 @@ const App: React.FC = () => {
         </main>
 
          <footer className="text-center mt-12 text-sm text-slate-500 dark:text-slate-400">
-            <p>Powered by Gemini API. © 2024. All Rights Reserved.</p>
+            <p>{t('footerText')}</p>
             <div className="mt-4 p-3 bg-emerald-100 dark:bg-emerald-900/40 border border-emerald-300 dark:border-emerald-700 rounded-lg text-emerald-800 dark:text-emerald-200 max-w-3xl mx-auto leading-relaxed">
-                <b>Good News!</b> This translator now preserves most of your original file's formatting, including cell styles, fonts, colors, and <b>embedded images</b>. Charts and macros are still not supported due to browser limitations.
+                <b>{t('goodNews')}</b> <span dangerouslySetInnerHTML={{ __html: t('goodNewsText') }} />
             </div>
         </footer>
       </div>
     </div>
   );
 };
+
+
+const App: React.FC = () => (
+    <LanguageProvider>
+        <AppContent />
+    </LanguageProvider>
+);
+
 
 export default App;

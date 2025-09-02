@@ -2,6 +2,7 @@
 import React, { useState, useCallback } from 'react';
 import { UploadIcon } from '../constants';
 import Spinner from './ui/Spinner';
+import { useTranslation } from '../hooks/useTranslation';
 
 interface FileUploaderProps {
   onFilesUploaded: (files: File[]) => void;
@@ -29,6 +30,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
     onProcessVisibleSheetsOnlyChange
 }) => {
   const [isDragging, setIsDragging] = useState(false);
+  const { t } = useTranslation();
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -70,8 +72,8 @@ const FileUploader: React.FC<FileUploaderProps> = ({
 
   return (
     <div className="w-full max-w-4xl mx-auto bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700">
-      <h2 className="text-2xl font-bold text-center text-slate-800 dark:text-white mb-2">Upload Your Excel Files</h2>
-      <p className="text-center text-slate-600 dark:text-slate-300 mb-8">Select or drag and drop the files you want to translate.</p>
+      <h2 className="text-2xl font-bold text-center text-slate-800 dark:text-white mb-2">{t('uploaderTitle')}</h2>
+      <p className="text-center text-slate-600 dark:text-slate-300 mb-8">{t('uploaderDescription')}</p>
       
       <div
         onDragEnter={handleDragEnter}
@@ -85,17 +87,17 @@ const FileUploader: React.FC<FileUploaderProps> = ({
         {isLoading ? (
             <div className="text-center">
                 <Spinner />
-                <p className="mt-4 text-lg font-medium text-slate-600 dark:text-slate-300">Extracting text from files...</p>
-                <p className="text-sm text-slate-500 dark:text-slate-400">This may take a moment.</p>
+                <p className="mt-4 text-lg font-medium text-slate-600 dark:text-slate-300">{t('uploaderLoading')}</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">{t('uploaderLoadingHint')}</p>
             </div>
         ) : (
             <>
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                     <UploadIcon className="w-12 h-12 mb-4 text-slate-400 dark:text-slate-500"/>
                     <p className="mb-2 text-lg font-semibold text-slate-600 dark:text-slate-300">
-                        <span className="text-indigo-600 dark:text-indigo-400">Click to upload</span> or drag and drop
+                        <span className="text-indigo-600 dark:text-indigo-400">{t('clickToUpload')}</span> {t('dragAndDrop')}
                     </p>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">Supports: .xlsx, .xls, .xlsm</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">{t('supportedFormats')}</p>
                 </div>
                 <input
                   id="file-upload"
@@ -123,9 +125,9 @@ const FileUploader: React.FC<FileUploaderProps> = ({
                     className="h-4 w-4 rounded border-slate-300 dark:border-slate-500 text-indigo-600 focus:ring-indigo-500 bg-slate-100 dark:bg-slate-700"
                 />
             </div>
-            <div className="ml-3 text-sm">
+            <div className="ms-3 text-sm">
                 <label htmlFor="extract-from-shapes" className="font-medium text-slate-700 dark:text-slate-300">
-                    Extract from shapes & charts
+                    {t('optionExtractShapes')}
                 </label>
             </div>
         </div>
@@ -141,9 +143,9 @@ const FileUploader: React.FC<FileUploaderProps> = ({
                     className="h-4 w-4 rounded border-slate-300 dark:border-slate-500 text-indigo-600 focus:ring-indigo-500 bg-slate-100 dark:bg-slate-700"
                 />
             </div>
-            <div className="ml-3 text-sm">
+            <div className="ms-3 text-sm">
                 <label htmlFor="process-visible-sheets" className="font-medium text-slate-700 dark:text-slate-300">
-                    Process visible sheets only
+                    {t('optionProcessVisibleSheets')}
                 </label>
             </div>
         </div>
@@ -159,9 +161,9 @@ const FileUploader: React.FC<FileUploaderProps> = ({
                     className="h-4 w-4 rounded border-slate-300 dark:border-slate-500 text-indigo-600 focus:ring-indigo-500 bg-slate-100 dark:bg-slate-700"
                 />
             </div>
-            <div className="ml-3 text-sm">
+            <div className="ms-3 text-sm">
                 <label htmlFor="translate-formulas" className="font-medium text-slate-700 dark:text-slate-300">
-                    Translate text in formulas
+                    {t('optionTranslateFormulas')}
                 </label>
             </div>
         </div>
@@ -177,20 +179,20 @@ const FileUploader: React.FC<FileUploaderProps> = ({
                     className="h-4 w-4 rounded border-slate-300 dark:border-slate-500 text-indigo-600 focus:ring-indigo-500 bg-slate-100 dark:bg-slate-700"
                 />
             </div>
-            <div className="ml-3 text-sm">
+            <div className="ms-3 text-sm">
                 <label htmlFor="preserve-rich-text" className="font-medium text-slate-700 dark:text-slate-300">
-                    Preserve rich text format
+                    {t('optionPreserveRichText')}
                 </label>
             </div>
         </div>
       </div>
        <div className="mt-6 text-center text-xs text-slate-500 dark:text-slate-400 max-w-3xl mx-auto p-3 bg-slate-100 dark:bg-slate-700/50 rounded-lg">
-        <p className="font-bold mb-1">Options Guide:</p>
+        <p className="font-bold mb-1">{t('optionsGuideTitle')}</p>
         <ul className="list-disc list-inside text-left space-y-1">
-            <li><b>Extract from shapes & charts:</b> Finds text in text boxes, shapes, and charts. <span className="font-semibold text-amber-600 dark:text-amber-400">Note: This text cannot be automatically replaced; you must manually copy-paste it from the dictionary.</span></li>
-            <li><b>Process visible sheets only:</b> Ignores any hidden sheets in your Excel files during text extraction.</li>
-            <li><b>Translate formulas:</b> (Experimental) Translates text found inside formula strings.</li>
-            <li><b>Preserve rich text:</b> Keeps bold, colors, etc., but may lower translation accuracy for sentences with mixed formatting. Uncheck to prioritize accuracy.</li>
+            <li dangerouslySetInnerHTML={{ __html: t('optionsGuideShapes') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('optionsGuideVisibleSheets') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('optionsGuideFormulas') }} />
+            <li dangerouslySetInnerHTML={{ __html: t('optionsGuideRichText') }} />
         </ul>
       </div>
 

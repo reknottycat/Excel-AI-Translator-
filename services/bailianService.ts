@@ -5,7 +5,7 @@
  */
 
 // User-provided credentials
-const BAILIAN_API_KEY = 'API_KEY';
+const BAILIAN_API_KEY = 'sk-234b2f0b91784354b4d2cb394e9177dc';
 
 // NOTE: The user provided 'qwen-plus-2025-07-14' as the "module name".
 // We are using this as the Application ID as per the provided API documentation.

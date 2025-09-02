@@ -1,4 +1,3 @@
-
 import { TranslationEntry, MatchPolicy, TranslatedFile } from '../types';
 
 // ExcelJS is loaded from a CDN in index.html, so we declare it here
@@ -119,32 +118,33 @@ export const extractTextsFromFiles = async (files: File[], translateFormulas: bo
           if (!cell.value) {
             return;
           }
-
+          
+          // Handle Rich Text specifically, as it requires special parsing
           if (cell.richText && Array.isArray(cell.richText)) {
             if (preserveRichTextFormatting) {
                 // Handle rich text run-by-run to preserve formatting context later
                 cell.richText.forEach((run: any) => {
-                  if (run.text && run.text.trim()) {
-                    const text = run.text.trim();
+                  if (run.text && run.text.toString().trim()) {
+                    const text = run.text.toString().trim();
                     if (!isPurelyNumeric(text)) {
                         allTexts.add(text);
                     }
                   }
                 });
             } else {
-                // Handle rich text as a single plain text unit for better translation context
-                const fullText = cell.richText.map((run: any) => run.text).join('').trim();
+                // Handle rich text as a single plain text unit for better translation context.
+                // cell.text correctly concatenates all rich text runs.
+                const fullText = cell.text.toString().trim();
                 if (fullText && !isPurelyNumeric(fullText)) {
                     allTexts.add(fullText);
                 }
             }
-          } else if (typeof cell.value === 'string') {
-            // Handle plain text
-            if (cell.value.trim()) {
-                const text = cell.value.trim();
-                if (!isPurelyNumeric(text)) {
-                    allTexts.add(text);
-                }
+          } else if (cell.value) {
+            // For all other cell types (plain text, numbers, dates, etc.),
+            // use cell.text to get the formatted string representation.
+            const text = cell.text.toString().trim();
+            if (text && !isPurelyNumeric(text)) {
+                allTexts.add(text);
             }
           }
         });

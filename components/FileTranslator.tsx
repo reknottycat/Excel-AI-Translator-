@@ -1,8 +1,10 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { TranslationEntry, TranslatedFile } from '../types';
 import { translateFile } from '../services/excelService';
 import Spinner from './ui/Spinner';
 import { DownloadIcon, CheckCircleIcon, DownloadAllIcon } from '../constants';
+import { useTranslation } from '../hooks/useTranslation';
 
 declare const JSZip: any;
 
@@ -20,6 +22,7 @@ const FileTranslator: React.FC<FileTranslatorProps> = ({ files, dictionary, onRe
   const [currentFile, setCurrentFile] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [isZipping, setIsZipping] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   const processFiles = useCallback(async () => {
     setIsLoading(true);
@@ -89,9 +92,9 @@ const FileTranslator: React.FC<FileTranslatorProps> = ({ files, dictionary, onRe
     return (
       <div className="w-full text-center bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700">
         <Spinner />
-        <h2 className="text-2xl font-bold mt-4">Translating Files...</h2>
-        {currentFile && <p className="text-slate-600 dark:text-slate-300 mt-2">Processing: {currentFile}</p>}
-         <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Please wait, this might take a few moments.</p>
+        <h2 className="text-2xl font-bold mt-4">{t('translatingTitle')}</h2>
+        {currentFile && <p className="text-slate-600 dark:text-slate-300 mt-2">{t('translatingFile')} {currentFile}</p>}
+         <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t('translatingHint')}</p>
       </div>
     );
   }
@@ -100,8 +103,8 @@ const FileTranslator: React.FC<FileTranslatorProps> = ({ files, dictionary, onRe
     <div className="w-full bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700">
         <div className="text-center mb-8">
             <CheckCircleIcon className="w-16 h-16 text-green-500 mx-auto mb-4"/>
-            <h2 className="text-3xl font-bold text-slate-800 dark:text-white">Translation Complete!</h2>
-            <p className="text-slate-600 dark:text-slate-300 mt-2">Your files have been successfully translated. Download them below.</p>
+            <h2 className="text-3xl font-bold text-slate-800 dark:text-white">{t('completeTitle')}</h2>
+            <p className="text-slate-600 dark:text-slate-300 mt-2">{t('completeDescription')}</p>
         </div>
 
         {translatedFiles.length > 1 && (
@@ -111,15 +114,15 @@ const FileTranslator: React.FC<FileTranslatorProps> = ({ files, dictionary, onRe
                     disabled={isZipping}
                     className="inline-flex items-center justify-center px-6 py-3 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 transition-colors shadow-md disabled:bg-green-300 dark:disabled:bg-green-800"
                 >
-                    {isZipping ? <Spinner /> : <DownloadAllIcon className="w-6 h-6 mr-2" />}
-                    {isZipping ? 'Zipping...' : 'Download All as .zip'}
+                    {isZipping ? <Spinner /> : <DownloadAllIcon className="w-6 h-6 me-2" />}
+                    {isZipping ? t('downloadAllZipping') : t('downloadAll')}
                 </button>
             </div>
         )}
       
         {error && (
             <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 my-4 rounded-md" role="alert">
-                <p className="font-bold">Error</p>
+                <p className="font-bold">{t('errorTitle')}</p>
                 <p>{error}</p>
             </div>
         )}
@@ -127,13 +130,13 @@ const FileTranslator: React.FC<FileTranslatorProps> = ({ files, dictionary, onRe
         <div className="space-y-4">
             {translatedFiles.map((file, index) => (
             <div key={index} className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-700/50 rounded-lg border dark:border-slate-600">
-                <p className="font-medium text-slate-700 dark:text-slate-200 truncate pr-4">{`[${languageCode.toUpperCase()}] ${file.name}`}</p>
+                <p className="font-medium text-slate-700 dark:text-slate-200 truncate pe-4">{`[${languageCode.toUpperCase()}] ${file.name}`}</p>
                 <button
                 onClick={() => handleDownload(file)}
                 className="flex items-center justify-center px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 transition-colors"
                 >
-                <DownloadIcon className="w-5 h-5 mr-2" />
-                Download
+                <DownloadIcon className="w-5 h-5 me-2" />
+                {t('downloadButton')}
                 </button>
             </div>
             ))}
@@ -144,7 +147,7 @@ const FileTranslator: React.FC<FileTranslatorProps> = ({ files, dictionary, onRe
                 onClick={onReset}
                 className="px-6 py-3 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-white font-semibold rounded-md hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors"
             >
-                Translate More Files
+                {t('translateMoreButton')}
             </button>
         </div>
     </div>
