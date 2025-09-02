@@ -6,11 +6,11 @@
 
 Run and deploy your AI Studio app
 
-# 运行并部署您的 AI Studio 应用
+# 运行并部署 
 
 This contains everything you need to run your app locally.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1FmSR-PJ-sGBpGG3htO5CegPj2F0pWopi
+# View your app in AI Studio: https://ai.studio/apps/drive/1FmSR-PJ-sGBpGG3htO5CegPj2F0pWopi
 
 ## Run Locally
 
@@ -18,10 +18,7 @@ View your app in AI Studio: https://ai.studio/apps/drive/1FmSR-PJ-sGBpGG3htO5Ceg
 
 
 
-
-这里包含运行本地应用所需的所有内容。
-
-在 AI Studio 中查看您的应用：https://ai.studio/apps/drive/1FmSR-PJ-sGBpGG3htO5CegPj2F0pWopi
+# 在 AI Studio 中查看您的应用：https://ai.studio/apps/drive/1FmSR-PJ-sGBpGG3htO5CegPj2F0pWopi
 
 ##本地运行
 前提条件：Node.js
