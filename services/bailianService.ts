@@ -4,20 +4,25 @@
  * Docs: https://help.aliyun.com/zh/model-studio/developer-reference/api-details-9
  */
 
-// User-provided credentials
-const BAILIAN_API_KEY = 'sk-234b2f0b91784354b4d2cb394e9177dc';
+// Credentials should be set as environment variables for security.
+// BAILIAN_API_KEY: Your Alibaba Cloud API Key (e.g., sk-xxxxxxxx)
+// BAILIAN_APP_ID: Your Application ID from the Bailian console.
+if (!process.env.BAILIAN_API_KEY || !process.env.BAILIAN_APP_ID) {
+    // We log a console error on load, but will throw a user-facing error in the function call.
+    console.error("Alibaba Bailian credentials are not fully set. Please provide BAILIAN_API_KEY and BAILIAN_APP_ID environment variables to use this model.");
+}
 
-// NOTE: The user provided 'qwen-plus-2025-07-14' as the "module name".
-// We are using this as the Application ID as per the provided API documentation.
-// Please verify this is the correct 'App ID' from your Bailian console.
-const BAILIAN_APP_ID = 'qwen-flash';
-
-const BAILIAN_API_ENDPOINT = `https://dashscope.aliyuncs.com/api/v1/apps/${BAILIAN_APP_ID}/completion`;
 
 export const getBailianTranslations = async (texts: string[], targetLanguage: string): Promise<string[]> => {
     if (texts.length === 0) {
         return [];
     }
+    
+    if (!process.env.BAILIAN_API_KEY || !process.env.BAILIAN_APP_ID) {
+        throw new Error("Alibaba Bailian API credentials are not configured. Cannot proceed with translation. Please contact the administrator.");
+    }
+
+    const BAILIAN_API_ENDPOINT = `https://dashscope.aliyuncs.com/api/v1/apps/${process.env.BAILIAN_APP_ID}/completion`;
     
     // Construct a prompt that instructs the model to return a JSON array.
     const prompt = `
@@ -47,7 +52,7 @@ export const getBailianTranslations = async (texts: string[], targetLanguage: st
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${BAILIAN_API_KEY}`,
+                'Authorization': `Bearer ${process.env.BAILIAN_API_KEY}`,
             },
             body: JSON.stringify(requestBody),
         });
