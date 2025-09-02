@@ -2,6 +2,11 @@
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
+# Introduction
+# 简介 
+
+本项目完全使用 Google ai 实现，项目可用性强，基本覆盖现有的生产环境。默认为对俄语的翻译（其他的语种也可使用)。
+This project is fully implemented using Google AI, with strong usability and covers most existing production environments. It defaults to Russian translation (other languages can also be used).
 
 
 Run and deploy your AI Studio app
@@ -10,7 +15,7 @@ Run and deploy your AI Studio app
 
 This contains everything you need to run your app locally.
 
-# View your app in AI Studio: https://ai.studio/apps/drive/1FmSR-PJ-sGBpGG3htO5CegPj2F0pWopi
+View your app in AI Studio: https://ai.studio/apps/drive/1FmSR-PJ-sGBpGG3htO5CegPj2F0pWopi
 
 ## Run Locally
 
@@ -18,7 +23,7 @@ This contains everything you need to run your app locally.
 
 
 
-# 在 AI Studio 中查看您的应用：https://ai.studio/apps/drive/1FmSR-PJ-sGBpGG3htO5CegPj2F0pWopi
+在 AI Studio 中查看您的应用：https://ai.studio/apps/drive/1FmSR-PJ-sGBpGG3htO5CegPj2F0pWopi
 
 ##本地运行
 前提条件：Node.js
@@ -31,4 +36,3 @@ Run the app: npm run dev  运行应用： npm run dev
 
 
 
-本项目完全使用 Google ai 实现，项目可用性强，基本覆盖现有的生产环境。默认为对俄语的翻译（其他的语种也可使用)。
