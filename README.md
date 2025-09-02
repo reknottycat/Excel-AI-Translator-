@@ -1,3 +1,9 @@
+<a href="https://aistudio.google.com/new" target="_blank">
+  <img src="https://st-studio.gu-web.com/static/img/run-in-aistudio-button.svg" alt="Run in AI Studio" />
+</a>
+
+[English](./README.md) | [中文](./README_zh.md)
+
 # Excel AI Translator
 
 An AI-powered web application designed to translate text within Excel files (.xlsx, .xls, .xlsm) while preserving the original formatting. This tool streamlines the localization process for complex spreadsheets by leveraging powerful AI models like Google's Gemini and Alibaba's Bailian.
