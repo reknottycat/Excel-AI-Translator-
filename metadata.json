@@ -1,0 +1,5 @@
+{
+  "name": "Excel Spreadsheet Translator(1.0)",
+  "description": "An AI-powered tool to translate text in Excel files while preserving formatting. Upload files, generate a translation dictionary with Gemini, review and edit it, and then translate your documents into Russian.",
+  "requestFramePermissions": []
+}
