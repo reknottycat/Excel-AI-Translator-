@@ -33,6 +33,14 @@ const DictionaryManager: React.FC<DictionaryManagerProps> = ({
   const [editFormData, setEditFormData] = useState<{ target: string; policy: MatchPolicy } | null>(null);
   const { t } = useTranslation();
 
+  const availableModels = useMemo(() => {
+    const models = [TranslationModel.GEMINI];
+    if (process.env.BAILIAN_API_KEY && process.env.BAILIAN_APP_ID) {
+        models.push(TranslationModel.BAILIAN);
+    }
+    return models;
+  }, []);
+
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     onTargetLanguageChange(e.target.value);
   };
@@ -108,7 +116,7 @@ const DictionaryManager: React.FC<DictionaryManagerProps> = ({
                     onChange={handleModelChange}
                     className="w-full h-10 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
                 >
-                    {Object.values(TranslationModel).map(model => (
+                    {availableModels.map(model => (
                         <option key={model} value={model}>{model}</option>
                     ))}
                 </select>

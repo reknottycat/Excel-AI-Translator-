@@ -1,4 +1,3 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import type { GenerateContentResponse } from "@google/genai";
 
@@ -8,7 +7,7 @@ if (!process.env.API_KEY) {
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
-const systemInstruction = `You are an expert translator. Your task is to translate a JSON array of text strings from English or Chinese into a specified target language.
+const systemInstruction = `You are an expert translator. Your task is to translate a JSON array of text strings into a specified target language. The source language will be detected automatically.
 - You MUST return a valid JSON array of strings.
 - The output array MUST have the exact same number of elements as the input array.
 - The order of the translated strings in the output array MUST correspond to the order of the source strings in the input array.

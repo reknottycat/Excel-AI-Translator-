@@ -97,6 +97,12 @@ export const extractTextsFromFiles = async (files: File[], translateFormulas: bo
       // 2. Extract texts from cells. Iterate over all cells to ensure none are missed.
       worksheet.eachRow({ includeEmpty: true }, (row: any) => {
         row.eachCell({ includeEmpty: true }, (cell: any) => {
+          // A cell is its own master if it is not part of a merged range, or
+          // if it is the top-left ('master') cell of a merged range.
+          // We only process the master cell to avoid duplicate text extraction.
+          if (cell.master !== cell) {
+            return;
+          }
           
           if (cell.formula) {
             if (translateFormulas && typeof cell.formula === 'string') {
@@ -180,6 +186,12 @@ export const translateFile = async (file: File, dictionary: TranslationEntry[], 
     workbook.eachSheet((worksheet: any) => {
         worksheet.eachRow({ includeEmpty: true }, (row: any) => {
             row.eachCell({ includeEmpty: true }, (cell: any) => {
+                // A cell is its own master if it is not part of a merged range, or
+                // if it is the top-left ('master') cell of a merged range.
+                // We only process the master cell to avoid duplicate translations.
+                if (cell.master !== cell) {
+                    return;
+                }
                 
                 // Priority 1: Handle formulas if they exist. This is a separate logic path.
                 if (cell.formula && typeof cell.formula === 'string') {

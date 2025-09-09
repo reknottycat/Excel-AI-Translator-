@@ -1,4 +1,3 @@
-
 export const translations = {
   en: {
     // App.tsx
@@ -41,7 +40,7 @@ export const translations = {
     proceedButton: "Proceed",
     emptyTargetWarning: "Please fill in all target translations or use the AI generator before proceeding.",
     apiErrorTitle: "API Error",
-    sourceTextHeader: "Source Text (English/Chinese)",
+    sourceTextHeader: "Source Text",
     targetTextHeader: "Target Text",
     matchPolicyHeader: "Match Policy",
     actionsHeader: "Actions",
@@ -100,7 +99,7 @@ export const translations = {
     proceedButton: "继续",
     emptyTargetWarning: "在继续之前，请填写所有目标翻译或使用 AI 生成器。",
     apiErrorTitle: "API 错误",
-    sourceTextHeader: "源文本 (英语/中文)",
+    sourceTextHeader: "源文本",
     targetTextHeader: "目标文本",
     matchPolicyHeader: "匹配策略",
     actionsHeader: "操作",
@@ -159,7 +158,7 @@ export const translations = {
     proceedButton: "Продолжить",
     emptyTargetWarning: "Пожалуйста, заполните все целевые переводы или используйте генератор AI перед тем, как продолжить.",
     apiErrorTitle: "Ошибка API",
-    sourceTextHeader: "Исходный текст (Английский/Китайский)",
+    sourceTextHeader: "Исходный текст",
     targetTextHeader: "Целевой текст",
     matchPolicyHeader: "Политика соответствия",
     actionsHeader: "Действия",
@@ -218,7 +217,7 @@ export const translations = {
     proceedButton: "متابعة",
     emptyTargetWarning: "يرجى ملء جميع الترجمات المستهدفة أو استخدام مولد الذكاء الاصطناعي قبل المتابعة.",
     apiErrorTitle: "خطأ في الواجهة البرمجية",
-    sourceTextHeader: "النص المصدر (إنجليزي/صيني)",
+    sourceTextHeader: "النص المصدر",
     targetTextHeader: "النص الهدف",
     matchPolicyHeader: "سياسة المطابقة",
     actionsHeader: "إجراءات",

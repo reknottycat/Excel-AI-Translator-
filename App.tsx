@@ -31,6 +31,13 @@ const AppContent: React.FC = () => {
     document.documentElement.dir = dir;
   }, [language, dir]);
 
+  useEffect(() => {
+    const bailianConfigured = !!process.env.BAILIAN_API_KEY && !!process.env.BAILIAN_APP_ID;
+    if (translationModel === TranslationModel.BAILIAN && !bailianConfigured) {
+        setTranslationModel(TranslationModel.GEMINI);
+    }
+  }, [translationModel]);
+
   const handleFilesUploaded = useCallback(async (files: File[]) => {
     setIsLoading(true);
     setError(null);

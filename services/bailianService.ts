@@ -7,11 +7,6 @@
 // Credentials should be set as environment variables for security.
 // BAILIAN_API_KEY: Your Alibaba Cloud API Key (e.g., sk-xxxxxxxx)
 // BAILIAN_APP_ID: Your Application ID from the Bailian console.
-if (!process.env.BAILIAN_API_KEY || !process.env.BAILIAN_APP_ID) {
-    // We log a console error on load, but will throw a user-facing error in the function call.
-    console.error("Alibaba Bailian credentials are not fully set. Please provide BAILIAN_API_KEY and BAILIAN_APP_ID environment variables to use this model.");
-}
-
 
 export const getBailianTranslations = async (texts: string[], targetLanguage: string): Promise<string[]> => {
     if (texts.length === 0) {
@@ -26,7 +21,7 @@ export const getBailianTranslations = async (texts: string[], targetLanguage: st
     
     // Construct a prompt that instructs the model to return a JSON array.
     const prompt = `
-        Translate the following JSON array of English/Chinese text strings into ${targetLanguage}.
+        Translate the following JSON array of text strings into ${targetLanguage}. The source language will be detected automatically.
         Return ONLY a valid JSON array of strings with the exact same number of elements and in the same order.
         Do not add any text or explanation before or after the JSON array.
         If a string does not need translation (e.g., it's a number, a formula-like string, or already in the target language), return it as is.

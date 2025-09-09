@@ -1,4 +1,4 @@
-<a href="https://aistudio.google.com/new" target="_blank">
+<a href="https://ai.studio/apps/drive/1FmSR-PJ-sGBpGG3htO5CegPj2F0pWopi" target="_blank">
   <img src="https://st-studio.gu-web.com/static/img/run-in-aistudio-button.svg" alt="Run in AI Studio" />
 </a>
 
